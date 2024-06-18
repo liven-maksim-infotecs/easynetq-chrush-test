@@ -1,0 +1,37 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  publisher_consumer:
+    build:
+      context: "C:\\Users\\liven.maksim\\RiderProjects\\EasyNetQTests"
+      dockerfile: "EasyNetQTests/Dockerfile"
+      target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
+    command: []
+    entrypoint:
+    - "/opt/rider-debugger/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
+    image: "easynetqtests:dev"
+    ports:
+    - "127.0.0.1:57004:57100"
+    - "127.0.0.1:57204:57300"
+    volumes:
+    - "C:\\Users\\liven.maksim\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\liven.maksim\\RiderProjects\\EasyNetQTests\\EasyNetQTests:/app:rw"
+    - "C:\\Users\\liven.maksim\\RiderProjects\\EasyNetQTests:/src:rw"
+    - "C:\\Users\\liven.maksim\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.1.2\\\
+      Linux64:/opt/rider-debugger"
+    - "C:\\Users\\liven.maksim\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "C:\\Users\\liven.maksim\\AppData\\Local\\JetBrains\\Rider2024.1\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_6_18_14_11_09:/var/opt/rider-debugger:rw"
+    working_dir: "/app"

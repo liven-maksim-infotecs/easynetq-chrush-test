@@ -1,0 +1,30 @@
+﻿name: easynetq_tests
+
+services:
+  rabbitmq:
+    image: harbor.infotecs.int/dockerhub/library/rabbitmq:3.13.3-management
+    restart: unless-stopped
+    volumes:
+      - 'rabbitmq_volume:/var/lib/rabbitmq'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  publisher_consumer:
+    image: easynetqtests
+    build:
+      context: .
+      dockerfile: EasyNetQTests/Dockerfile
+    ports:
+      - "127.0.0.1:8888:8080"
+    environment:
+      EasyTests__MustCrush: true # use this to change behaviour
+      EasyTests__ConnectionConfiguration__Hosts__0__Host: rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  rabbitmq_volume: {}
